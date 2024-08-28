@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const expressSession = require('express-session');
 const passport = require('passport');
-const passportLocal = require('passport-local');
+const bcrypt = require('bcryptjs');
 
 
 const app = express();
@@ -38,6 +38,22 @@ app.use(passport.session());
   
 app.get("/",(req,res) => {
     res.render("index");
+})
+
+app.post("/",(req,res) => {
+  const user = {username:req.body.username,password:req.body.password};
+  bcrypt.hash(user.password,10,async(err,hash) => {
+      if(err)console.log(err);
+      else{
+        const newUser = await prisma.user.create({
+          data:{
+            username: `${user.username}`,
+            password: `${hash}`
+          },
+        }) 
+      }
+  })
+  res.redirect("/");
 })
 
 
