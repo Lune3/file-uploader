@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 
 passport.use(new localStrategy(async(username,password,done) => {
     try{
-        const {user} = await prisma.user.findMany({
+        const {user} = await prisma.user.findUnique({
             where:{
                 username:`${username}`
             }
@@ -34,7 +34,7 @@ passport.serializeUser((user,done) => {
 
 passport.deserializeUser(async (id,done)=>{
     try{
-        const {rows} = await prisma.user.findMany({
+        const {rows} = await prisma.user.findUnique({
             where:{
                 id:id,
             }
@@ -47,3 +47,5 @@ passport.deserializeUser(async (id,done)=>{
         done(err);
     }
 })
+
+module.exports = passport;

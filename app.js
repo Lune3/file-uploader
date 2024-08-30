@@ -7,7 +7,9 @@ const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const expressSession = require('express-session');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const login = require('./routes/log-in.js')
+const login = require('./routes/log-in.js');
+
+const indexRoute = require('./routes/indexRoute.js');
 
 
 const app = express();
@@ -25,7 +27,7 @@ app.use(
       resave: false,
       saveUninitialized: false,
       store: new PrismaSessionStore(
-        prisma,
+        new PrismaClient(),
         {
           checkPeriod: 2 * 60 * 1000,  //ms
           dbRecordIdIsSessionId: true,
@@ -37,25 +39,7 @@ app.use(
 
 app.use(passport.session());
   
-app.get("/",(req,res) => {
-    res.render("index");
-})
-
-app.post("/",(req,res) => {
-  const user = {username:req.body.username,password:req.body.password};
-  bcrypt.hash(user.password,10,async(err,hash) => {
-      if(err)console.log(err);
-      else{
-        const newUser = await prisma.user.create({
-          data:{
-            username: `${user.username}`,
-            password: `${hash}`
-          },
-        }) 
-      }
-  })
-  res.redirect("/login");
-})
+app.use('/',indexRoute);
 
 app.use('/login',login);
 
