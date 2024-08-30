@@ -9,20 +9,31 @@ indexRoute.get("/",(req,res) => {
     res.render("index");
 })
 
-indexRoute.post("/",(req,res) => {
+indexRoute.post("/",async (req,res) => {
     const user = {username:req.body.username,password:req.body.password};
-    bcrypt.hash(user.password,10,async(err,hash) => {
-      if(err)console.log(err);
-      else{
-        const newUser = await prisma.user.create({
-          data:{
-            username: `${user.username}`,
-            password: `${hash}`
-          },
-        }) 
-      }
-  })
+    try{
+        const userExist = await prisma.user.findUnique({
+            where:{
+                username:user.username,
+            }
+        })
+        if(userExist){
+            res.sendStatus(400).send("user already exist");
+        }
+        else{
+            const hashPassword = await bcrypt.hash(user.password,10);
+            const user = await prisma.user.create({
+                data:{
+                    username:user.username,
+                    password:hashPassword
+                }
+            });
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
   res.redirect("/login");
-})
+});
 
 module.exports = indexRoute;

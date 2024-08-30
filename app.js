@@ -44,8 +44,6 @@ app.use('/',indexRoute);
 app.use('/login',login);
 
 
-
-
 app.listen(process.env.PORT,() => {
     console.log(`server running`);
 })
