@@ -7,6 +7,7 @@ const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const expressSession = require('express-session');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const login = require('./routes/log-in.js')
 
 
 const app = express();
@@ -53,8 +54,11 @@ app.post("/",(req,res) => {
         }) 
       }
   })
-  res.redirect("/");
+  res.redirect("/login");
 })
+
+app.use('/login',login);
+
 
 
 
