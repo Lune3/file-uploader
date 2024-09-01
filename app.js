@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require("node:path");
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require('@prisma/client');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const expressSession = require('express-session');
 const passport = require('passport');
