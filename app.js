@@ -2,13 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const path = require("node:path");
 const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const expressSession = require('express-session');
 const passport = require('passport');
-const bcrypt = require('bcryptjs');
 const login = require('./routes/log-in.js');
-
 const indexRoute = require('./routes/indexRoute.js');
 
 

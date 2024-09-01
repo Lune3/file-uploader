@@ -18,11 +18,11 @@ indexRoute.post("/",async (req,res) => {
             }
         })
         if(userExist){
-            res.sendStatus(400).send("user already exist");
+            res.status(400).send("user already exist");
         }
         else{
             const hashPassword = await bcrypt.hash(user.password,10);
-            const user = await prisma.user.create({
+            const newUser = await prisma.user.create({
                 data:{
                     username:user.username,
                     password:hashPassword
