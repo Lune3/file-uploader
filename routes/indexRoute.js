@@ -28,12 +28,12 @@ indexRoute.post("/",async (req,res) => {
                     password:hashPassword
                 }
             });
+            res.redirect("/login");
         }
     }
     catch(err){
         console.log(err);
     }
-  res.redirect("/login");
 });
 
 module.exports = indexRoute;

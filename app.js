@@ -5,8 +5,9 @@ const { PrismaClient } = require('@prisma/client')
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const expressSession = require('express-session');
 const passport = require('passport');
-const login = require('./routes/log-in.js');
 const indexRoute = require('./routes/indexRoute.js');
+const login = require('./routes/log-in.js');
+const drive = require('./routes/drive.js');
 
 
 const app = express();
@@ -39,6 +40,8 @@ app.use(passport.session());
 app.use('/',indexRoute);
 
 app.use('/login',login);
+
+app.use('/drive',drive);
 
 
 app.listen(process.env.PORT,() => {

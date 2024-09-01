@@ -8,7 +8,7 @@ login.get("/",(req,res) => {
 })
 
 login.post("/", passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/drive",
     failureRedirect: "/login"
 }));
 
