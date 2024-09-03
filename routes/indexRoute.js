@@ -25,8 +25,13 @@ indexRoute.post("/",async (req,res) => {
             const newUser = await prisma.user.create({
                 data:{
                     username:user.username,
-                    password:hashPassword
-                }
+                    password:hashPassword,
+                    rootFolder:{
+                        create:{
+                            
+                        }
+                    }
+                },
             });
             res.redirect("/login");
         }
