@@ -25,3 +25,11 @@ model User{
   username String @unique
   password String
 }
+
+model Folder{
+  id String @id @unique @default(uuid())
+  name String
+  folder Folder[] @relation("Subfolder")
+  parentFolder Folder? @relation("Subfolder", fields: [parentId],references: [id])
+  parentId String?
+}
