@@ -9,16 +9,28 @@ login.get("/",(req,res) => {
 })
 
 const successRouter = async (req,res) => {
-    const user = req.body.user;
-    const id = await prisma.user.findUnique({
-        where:{
-            username:user
-        },
-        select:{
-            rootFolder:true
+    const username = req.body.username;
+
+    if (!username) {
+        return res.status(400).send('Username is required');
+    }
+
+    try {
+        const pullUser = await prisma.user.findUnique({
+            where: {
+                username: username,
+            },
+        });
+
+        if (!pullUser) {
+            return res.status(404).send('User not found');
         }
-    })
-    res.render("/drive",{id:id});
+
+        res.redirect(`/drive?id=${pullUser.rootFolder}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
 }
 
 login.post("/", passport.authenticate("local", {

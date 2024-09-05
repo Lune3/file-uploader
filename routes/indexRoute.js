@@ -26,13 +26,14 @@ indexRoute.post("/",async (req,res) => {
                 data:{
                     username:user.username,
                     password:hashPassword,
-                    rootFolder:{
+                    folderKey:{
                         create:{
                             
                         }
                     }
                 },
             });
+            console.log(newUser);
             res.redirect("/login");
         }
     }
