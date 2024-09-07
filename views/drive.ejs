@@ -26,10 +26,11 @@
                 </div>
             </div>
             <ul class="library">
-                <!-- 
+                <% for(let i = 0;i < folders.length;i++){ %>
                     <li>
-                        <a href=""
-                    </li> -->
+                        <a href="/drive/<%= folders[i].id%>"><%=folders[i].name%></a>
+                    </li>
+                    <%}%>
             </ul>
         </div>
     </section>

@@ -22,12 +22,12 @@ drive.post('/newFolder',async(req,res) => {
     const user = req.session.user;
     const newFolder = await prisma.folder.create({
         data:{
-            user:user.username,
-            name:req.body.folderName,
-            parentId:user.rootFolder
+            name:req.body.folderName || 'Untitled Folder',
+            parentFolder:{connect:{id:user.rootFolder}},
+            user:{connect:{id:user.id}}
         }
     })
-    console.log(newFolder);
+    console.log(newFolder.name);
     res.redirect(`/drive`);
 });
 
