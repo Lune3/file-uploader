@@ -25,8 +25,8 @@ const successRouter = async (req,res) => {
         if (!pullUser) {
             return res.status(404).send('User not found');
         }
-
-        res.redirect(`/drive?id=${pullUser.rootFolder}`);
+        req.session.user= pullUser;
+        res.redirect(`/drive`);
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
