@@ -1,6 +1,6 @@
 const {Router} = require('express');
-const {PrismaClient} = require('@prisma/client');
-const prisma = new PrismaClient();
+const prisma = require('../db.js');
+const subFolder = require('./subfolder.js');
 
 const drive = Router();
 
@@ -10,7 +10,6 @@ drive.get('/',async (req,res) => {
             parentId:req.session.user.rootFolder
         }
     })
-    console.log(folders);
     res.render("drive",{folders:folders});
 });
 
@@ -23,12 +22,13 @@ drive.post('/newFolder',async(req,res) => {
     const newFolder = await prisma.folder.create({
         data:{
             name:req.body.folderName || 'Untitled Folder',
-            parentFolder:{connect:{id:user.rootFolder}},
-            user:{connect:{id:user.id}}
+            parentId:user.rootFolder
         }
     })
-    console.log(newFolder.name);
+    console.log(newFolder);
     res.redirect(`/drive`);
 });
+
+drive.use('/:folderId',subFolder);
 
 module.exports = drive;

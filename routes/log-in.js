@@ -25,6 +25,7 @@ const successRouter = async (req,res) => {
         if (!pullUser) {
             return res.status(404).send('User not found');
         }
+        console.log(pullUser);
         req.session.user= pullUser;
         res.redirect(`/drive`);
     } catch (error) {
