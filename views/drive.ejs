@@ -21,7 +21,12 @@
             <div class="libraryDiv">
                 <p>My Library</p>
                 <div>
-                    <a href="drive/newFolder">New Folder</a>
+                    <% if(route === null) { %>
+                        <a href="/drive/newFolder">New Folder1</a>
+                    <%} %>
+                    <% if(route != null) { %>
+                        <a href="/drive/newFolder/<%=route%>">New Folder2</a>
+                    <% } %>
                     <a href="/upload-file">Upload file</a>
                 </div>
             </div>

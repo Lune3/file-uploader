@@ -10,7 +10,7 @@ drive.get('/',async (req,res) => {
             parentId:req.session.user.rootFolder
         }
     })
-    res.render("drive",{folders:folders});
+    res.render("drive",{folders:folders,route:null});
 });
 
 drive.get(`/newFolder`,(req,res) =>{
@@ -29,6 +29,29 @@ drive.post('/newFolder',async(req,res) => {
     res.redirect(`/drive`);
 });
 
-drive.use('/:folderId',subFolder);
+drive.get('/:folderId',async (req,res) => {
+    const selectedFolder = await prisma.folder.findMany({
+        where:{
+            parentId:req.params.folderId
+        }
+    })
+    res.render("drive",{folders:selectedFolder,route:`${req.params.folderId}`});
+});
+
+drive.get('/newFolder/:folderId',async (req,res) => {
+    res.render("folders");
+})
+
+drive.post('/newFolder/:folderId',async (req,res) => {
+    const parentFolder = req.params.folderId;
+    const newFolder = await prisma.folder.create({
+        data:{
+            name:req.body.folderName || 'Untitled Folder',
+            parentId:parentFolder
+        }
+    })
+    res.redirect(`/drive/${parentFolder}`);
+})
+
 
 module.exports = drive;

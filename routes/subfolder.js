@@ -1,6 +1,5 @@
 const {Router} = require('express');
 const prisma = require('../db.js');
-
 const subFolder = Router();
 
 subFolder.get('/:folderId',async (req,res) => {
