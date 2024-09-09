@@ -35,4 +35,14 @@ model Folder{
   folder Folder[] @relation("Subfolder")
   parentFolder Folder? @relation("Subfolder", fields: [parentId],references: [id])
   parentId String?
+  file File[]
+}
+
+model File{
+  id String @id @default(uuid())
+  name String
+  size Float
+  uploadTime DateTime @default(now())
+  folder Folder @relation(fields: [FolderId], references: [id])
+  FolderId String
 }

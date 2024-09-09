@@ -1,6 +1,5 @@
 const {Router} = require('express');
 const prisma = require('../db.js');
-const subFolder = require('./subfolder.js');
 
 const drive = Router();
 
@@ -24,8 +23,7 @@ drive.post('/newFolder',async(req,res) => {
             name:req.body.folderName || 'Untitled Folder',
             parentId:user.rootFolder
         }
-    })
-    console.log(newFolder);
+    });
     res.redirect(`/drive`);
 });
 
@@ -40,7 +38,7 @@ drive.get('/:folderId',async (req,res) => {
 
 drive.get('/newFolder/:folderId',async (req,res) => {
     res.render("folders");
-})
+});
 
 drive.post('/newFolder/:folderId',async (req,res) => {
     const parentFolder = req.params.folderId;
@@ -51,7 +49,7 @@ drive.post('/newFolder/:folderId',async (req,res) => {
         }
     })
     res.redirect(`/drive/${parentFolder}`);
-})
+});
 
 
 module.exports = drive;

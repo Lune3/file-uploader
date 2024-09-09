@@ -33,7 +33,6 @@ indexRoute.post("/",async (req,res) => {
                     }
                 },
             });
-            console.log(newUser);
             res.redirect("/login");
         }
     }
