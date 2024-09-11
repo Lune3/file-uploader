@@ -1,13 +1,15 @@
 const {Router} = require('express');
 const prisma = require('../db.js');
 const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' })
 const cloudinary = require('cloudinary').v2;
 const drive = Router();
 
 cloudinary.config({ 
     cloud_name: process.env.cloud_name, 
     api_key: process.env.api_key, 
-    api_secret: process.env.api_secret
+    api_secret: process.env.api_secret,
+    secure: true
   });
 
 drive.get('/',async (req,res) => {
@@ -38,21 +40,30 @@ drive.get('/uploadFile', async (req,res) => {
     res.render("file");
 });
 
-drive.post('/uploadFile' ,async(req,res) => {
-    const userFile = req.body.userFile;
+drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
 
-    const fileSize = req.file.size;
-    const fileSizeInKb = (fileSize / 1024).toFixed(2);
-    const fileSizeInMb = (fileSize / (1024 * 1024)).toFixed(2);
+    const userFile = req.file.originalname; 
 
+    const fileSize = parseFloat(req.file.size);
+    const fileSizeInKb = (fileSize / 1024);
+    const fileSizeInMb = (fileSize / (1024 * 1024));
+
+
+    
     const newFile = await prisma.file.create({
-        data:{
-            name:userFile,
-            folderId:req.session.rootFolder,
-            size:fileSizeInKb > 1000?fileSizeInMb:fileSizeInKb
+        data: {
+            name: userFile,
+            FolderId: req.session.user.rootFolder,
+            size: fileSizeInKb > 1000 ? fileSizeInMb : fileSizeInKb
         }
-    })
-    console.log(newFile);
+    });
+
+    
+
+    res.redirect("/drive");
 })
 
 drive.get('/:folderId',async (req,res) => {
