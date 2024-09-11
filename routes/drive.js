@@ -61,7 +61,27 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
         }
     });
 
-    
+    const cloudinaryOptions = {
+        use_filename: true,
+        unique_filename: false,
+        overwrite: true,
+        resource_type: "auto",
+    }
+
+    try {
+        const uploadFile = await cloudinary.uploader.upload(req.file.path,cloudinaryOptions);
+        const updateUrl = await prisma.file.update({
+            where:{
+                id:newFile.id
+            },
+            data:{
+                fileUrl:uploadFile.secure_url
+            }
+        })
+        console.log(updateUrl);
+    } catch (error) { 
+        console.log(error);
+    }
 
     res.redirect("/drive");
 })
