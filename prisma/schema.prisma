@@ -41,7 +41,7 @@ model Folder{
 model File{
   id String @id @default(uuid())
   name String
-  size Float
+  size Int?
   uploadTime DateTime @default(now())
   folder Folder @relation(fields: [FolderId], references: [id])
   FolderId String
