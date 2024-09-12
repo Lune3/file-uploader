@@ -18,7 +18,13 @@ drive.get('/',async (req,res) => {
             parentId:req.session.user.rootFolder
         }
     })
-    res.render("drive",{folders:folders,route:null});
+
+    const files = await prisma.file.findMany({
+        where:{
+            FolderId:req.session.user.rootFolder
+        }
+    })
+    res.render("drive",{folders:folders,route:null,files:files});
 });
 
 drive.get(`/newFolder`,(req,res) =>{
@@ -36,9 +42,60 @@ drive.post('/newFolder',async(req,res) => {
     res.redirect(`/drive`);
 });
 
+
 drive.get('/uploadFile', async (req,res) => {
     res.render("file");
 });
+
+drive.get('/uploadFile/:folderId', (req,res) => {
+    res.render("file");
+})
+
+drive.post('/uploadFile/:folderId',upload.single('userFile') ,async (req,res) => {
+    if(!req.file){
+        return res.status(400).send('No file uploaded');
+    }
+
+    const userFile = req.file.originalname; 
+
+    const fileSize = parseFloat(req.file.size);
+    const fileSizeInKb = (fileSize / 1024);
+    const fileSizeInMb = (fileSize / (1024 * 1024));
+
+    const newFile = await prisma.file.create({
+        data: {
+            name: userFile,
+            FolderId: req.params.folderId,
+            size: fileSizeInKb
+        }
+    });
+
+    const cloudinaryOptions = {
+        use_filename: true,
+        unique_filename: false,
+        overwrite: true,
+        resource_type: "auto",
+    }
+
+    try {
+        const uploadFile = await cloudinary.uploader.upload(req.file.path,cloudinaryOptions);
+        const updateUrl = await prisma.file.update({
+            where:{
+                id:newFile.id
+            },
+            data:{
+                fileUrl:uploadFile.secure_url
+            }
+        })
+        console.log(updateUrl);
+    } catch (error) { 
+        console.log(error);
+    }
+
+    res.redirect(`/drive/${req.params.folderId}`)
+
+});
+
 
 drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
     if (!req.file) {
@@ -57,7 +114,7 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
         data: {
             name: userFile,
             FolderId: req.session.user.rootFolder,
-            size: fileSizeInKb > 1000 ? fileSizeInMb : fileSizeInKb
+            size: fileSizeInKb
         }
     });
 
@@ -84,7 +141,7 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
     }
 
     res.redirect("/drive");
-})
+});
 
 drive.get('/:folderId',async (req,res) => {
     const selectedFolder = await prisma.folder.findMany({
@@ -92,7 +149,13 @@ drive.get('/:folderId',async (req,res) => {
             parentId:req.params.folderId
         }
     })
-    res.render("drive",{folders:selectedFolder,route:`${req.params.folderId}`});
+
+    const subFiles = await prisma.file.findMany({
+        where:{
+            FolderId:req.params.folderId
+        }
+    })
+    res.render("drive",{folders:selectedFolder,route:`${req.params.folderId}`,files:subFiles});
 });
 
 drive.get('/newFolder/:folderId',async (req,res) => {

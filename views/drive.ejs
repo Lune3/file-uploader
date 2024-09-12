@@ -23,11 +23,12 @@
                 <div>
                     <% if(route === null) { %>
                         <a href="/drive/newFolder">New Folder</a>
+                        <a href="/drive/uploadFile">Upload file</a>
                     <%} %>
                     <% if(route != null) { %>
                         <a href="/drive/newFolder/<%=route%>">New Folder</a>
+                        <a href="/drive/uploadFile/<%=route%>">Upload file</a>
                     <% } %>
-                    <a href="/drive/uploadFile">Upload file</a>
                 </div>
             </div>
             <ul class="library">
@@ -36,7 +37,18 @@
                         <a href="/drive/<%= folders[i].id%>"><%=folders[i].name%></a>
                     </li>
                     <%}%>
-            </ul>
+                    <% if(files){ %>
+                        <% for(let i = 0;i < files.length;i++){ %>
+                            <li>
+                                <div>
+                                    <a href="<%= files[i].fileUrl%>"><%= files[i].name %></a>
+                                    <p><%= files[i].size %>KB</p>
+                                    <p><%= files[i].uploadTime %></p>
+                                </div>
+                            </li>
+                            <%}%>
+                    <%} %>
+                </ul> 
         </div>
     </section>
 </body>
