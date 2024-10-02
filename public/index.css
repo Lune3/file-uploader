@@ -1,0 +1,37 @@
+body{
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.registerBox{
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1{
+    margin: 0;
+}
+
+legend{
+    font-size: 1.8rem;
+}
+
+label{
+    font-size: 1.3rem;
+    
+}
+
+input{
+    height: 20px;
+}
+
+fieldset{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

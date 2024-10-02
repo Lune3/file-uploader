@@ -87,7 +87,6 @@ drive.post('/uploadFile/:folderId',upload.single('userFile') ,async (req,res) =>
                 fileUrl:uploadFile.secure_url
             }
         })
-        console.log(updateUrl);
     } catch (error) { 
         console.log(error);
     }
@@ -135,7 +134,6 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
                 fileUrl:uploadFile.secure_url
             }
         })
-        console.log(updateUrl);
     } catch (error) { 
         console.log(error);
     }
