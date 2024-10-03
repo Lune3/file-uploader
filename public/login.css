@@ -1,0 +1,28 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+fieldset{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+legend{
+    font-size: 1.8rem;
+}
+
+label{
+    font-size: 1.3rem; 
+}
+
+input{
+    height: 20px;
+}
+
+button{
+    width: 100px;
+}

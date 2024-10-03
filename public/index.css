@@ -22,8 +22,7 @@ legend{
 }
 
 label{
-    font-size: 1.3rem;
-    
+    font-size: 1.3rem; 
 }
 
 input{
@@ -34,4 +33,9 @@ fieldset{
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+button{
+    width: 100px;
+    font-size: 0.9rem;
 }
