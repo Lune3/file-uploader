@@ -24,7 +24,7 @@ drive.get('/',async (req,res) => {
             FolderId:req.session.user.rootFolder
         }
     })
-    res.render("drive",{folders:folders,route:null,files:files});
+    res.render("drive",{folders:folders,route:null,files:files,username:req.session.user.username});
 });
 
 drive.get(`/newFolder`,(req,res) =>{
@@ -59,7 +59,7 @@ drive.post('/uploadFile/:folderId',upload.single('userFile') ,async (req,res) =>
     const userFile = req.file.originalname; 
 
     const fileSize = parseFloat(req.file.size);
-    const fileSizeInKb = (fileSize / 1024);
+    const fileSizeInKb = (fileSize / 1024).toPrecision(3);
     const fileSizeInMb = (fileSize / (1024 * 1024));
 
     const newFile = await prisma.file.create({
@@ -104,7 +104,7 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
     const userFile = req.file.originalname; 
 
     const fileSize = parseFloat(req.file.size);
-    const fileSizeInKb = (fileSize / 1024);
+    const fileSizeInKb = parseFloat((fileSize / 1024).toPrecision(3));
     const fileSizeInMb = (fileSize / (1024 * 1024));
 
 

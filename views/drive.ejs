@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunar drive</title>
+    <link rel="stylesheet" href="./drive.css">
 </head>
 <body>
     <header>
-        <div>
+        <div class="HeadingBox">
             <h1>Lunar Drive</h1>
         </div>
-        <div>
-            <p>Hello user |</p>
-            <a>Home</a>
-            <p>Log out</p>
+        <div class="navBox">
+            <p>Hello <%=username%></p>
+            <a href="/drive">Home</a>
+            <a href="/login">Log out</a>
         </div>
     </header>
     <section>
@@ -32,11 +33,14 @@
                 </div>
             </div>
             <ul class="library">
-                <% for(let i = 0;i < folders.length;i++){ %>
-                    <li>
-                        <a href="/drive/<%= folders[i].id%>"><%=folders[i].name%></a>
-                    </li>
-                    <%}%>
+                <div class="folderBox">
+                    <% for(let i = 0;i < folders.length;i++){ %>
+                        <li>
+                            <a href="/drive/<%= folders[i].id%>"><%=folders[i].name%></a>
+                        </li>
+                        <%}%>
+                </div>
+                <div class="filesBox">
                     <% if(files){ %>
                         <% for(let i = 0;i < files.length;i++){ %>
                             <li>
@@ -48,6 +52,7 @@
                             </li>
                             <%}%>
                     <%} %>
+                </div>
                 </ul> 
         </div>
     </section>
