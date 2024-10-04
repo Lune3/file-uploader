@@ -4,6 +4,7 @@ const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' })
 const cloudinary = require('cloudinary').v2;
 const drive = Router();
+const {format} = require('date-fns')
 
 cloudinary.config({ 
     cloud_name: process.env.cloud_name, 
@@ -24,7 +25,7 @@ drive.get('/',async (req,res) => {
             FolderId:req.session.user.rootFolder
         }
     })
-    res.render("drive",{folders:folders,route:null,files:files,username:req.session.user.username});
+    res.render("drive",{folders:folders,route:null,files:files,username:req.session.user.username,format:format});
 });
 
 drive.get(`/newFolder`,(req,res) =>{
@@ -59,7 +60,7 @@ drive.post('/uploadFile/:folderId',upload.single('userFile') ,async (req,res) =>
     const userFile = req.file.originalname; 
 
     const fileSize = parseFloat(req.file.size);
-    const fileSizeInKb = (fileSize / 1024).toPrecision(3);
+    const fileSizeInKb = (fileSize / 1024);
     const fileSizeInMb = (fileSize / (1024 * 1024));
 
     const newFile = await prisma.file.create({
@@ -104,7 +105,7 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
     const userFile = req.file.originalname; 
 
     const fileSize = parseFloat(req.file.size);
-    const fileSizeInKb = parseFloat((fileSize / 1024).toPrecision(3));
+    const fileSizeInKb =(fileSize / 1024);
     const fileSizeInMb = (fileSize / (1024 * 1024));
 
 

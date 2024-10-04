@@ -24,21 +24,33 @@ h1{
 }
 
 section{
+    display: flex;
+    flex-direction: column;
     flex: 1;
 }
 
 ul{
     display: flex;
     list-style: none;
-    gap: 30px;
-    height: 100%;
+    gap: 20px;
+    flex: 1;
+    padding: 0;
+    border-top: 1px solid black;
 }
 
 .folderBox{
+    padding-top: 20px;
     flex-basis: 100px;
     border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .filesBox{
-
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(100px,10%));
+    gap: 10px;
+    padding: 20px;
 }
