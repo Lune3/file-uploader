@@ -80,6 +80,7 @@ drive.post('/uploadFile/:folderId',upload.single('userFile') ,async (req,res) =>
 
     try {
         const uploadFile = await cloudinary.uploader.upload(req.file.path,cloudinaryOptions);
+        console.log(uploadFile);
         const updateUrl = await prisma.file.update({
             where:{
                 id:newFile.id
@@ -127,6 +128,7 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
 
     try {
         const uploadFile = await cloudinary.uploader.upload(req.file.path,cloudinaryOptions);
+        console.log(uploadFile);
         const updateUrl = await prisma.file.update({
             where:{
                 id:newFile.id
@@ -154,7 +156,7 @@ drive.get('/:folderId',async (req,res) => {
             FolderId:req.params.folderId
         }
     })
-    res.render("drive",{folders:selectedFolder,route:`${req.params.folderId}`,files:subFiles});
+    res.render("drive",{folders:selectedFolder,route:`${req.params.folderId}`,files:subFiles,username:req.session.user.username,format:format});
 });
 
 drive.get('/newFolder/:folderId',async (req,res) => {
