@@ -8,6 +8,7 @@ const passport = require('passport');
 const indexRoute = require('./routes/indexRoute.js');
 const login = require('./routes/log-in.js');
 const drive = require('./routes/drive.js');
+const deleteRoute = require('./routes/delete.js');
 
 
 const app = express();
@@ -45,6 +46,8 @@ app.use('/',indexRoute);
 app.use('/login',login);
 
 app.use('/drive',drive);
+
+app.use('/delete',deleteRoute);
 
 
 app.listen(process.env.PORT,() => {

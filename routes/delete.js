@@ -10,12 +10,6 @@ cloudinary.config({
     secure: true
 });
 
-const cloudinaryOptions = {
-    use_filename: true,
-    unique_filename: false,
-    overwrite: true,
-    resource_type: "auto",
-}
 
 deleteRoute.get('/:fileId',async (req,res) => {
     
@@ -24,9 +18,18 @@ deleteRoute.get('/:fileId',async (req,res) => {
             id:req.params.fileId
         }
     });
+    
+
+    try{
+        const deleteFileFromCloudinary = await cloudinary.uploader.destroy(deleteFile.public_id);
+    }
+    catch(err){
+        console.log(err);
+    }
+
 
     res.redirect('back');
 })
 
 
-module.exports(deleteRoute);
+module.exports=deleteRoute;
