@@ -36,7 +36,7 @@
                     <% for(let i = 0;i < folders.length;i++){ %>
                         <li>
                             <a href="/drive/<%= folders[i].id%>"><%=folders[i].name%></a>
-                            <button style="margin-left: 10px;">Delete</button>
+                            <a href="/delete/folder/<%= folders[i].id%>"><button style="margin-left: 10px;">Delete</button></a>
                         </li>
                         <%}%>
                 </div>
@@ -48,14 +48,14 @@
                                     <a href="<%= files[i].fileUrl%>"><%= files[i].name %></a>
                                     <p><%= files[i].size.toPrecision(3)%>KB</p>
                                     <p><%= format(files[i].uploadTime,'yyyy/MM/dd') %></p>
-                                    <a href="/delete/<%= files[i].id%>"><button>Delete</button></a>
+                                    <a href="/delete/file/<%= files[i].id%>"><button>Delete</button></a>
                                 </div>
                             </li>
                             <%}%>
                     <%} %>
                 </div>
                 </ul> 
-        
+
     </section>
 </body>
 </html>

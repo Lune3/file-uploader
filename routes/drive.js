@@ -87,7 +87,8 @@ drive.post('/uploadFile/:folderId',upload.single('userFile') ,async (req,res) =>
                 id:newFile.id
             },
             data:{
-                fileUrl:uploadFile.secure_url
+                fileUrl:uploadFile.secure_url,
+                public_id:uploadFile.public_id
             }
         })
     } catch (error) { 
@@ -110,8 +111,6 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
     const fileSizeInKb =(fileSize / 1024);
     const fileSizeInMb = (fileSize / (1024 * 1024));
 
-
-    
     const newFile = await prisma.file.create({
         data: {
             name: userFile,
@@ -138,6 +137,7 @@ drive.post('/uploadFile',upload.single('userFile') ,async(req,res) => {
                 public_id:uploadFile.public_id
             }
         })
+        console.log('updatedFile record is = ',updateUrl);
     } catch (error) { 
         console.log(error);
     }
@@ -157,7 +157,7 @@ drive.get('/:folderId',async (req,res) => {
             FolderId:req.params.folderId
         }
     })
-    res.render("drive",{folders:selectedFolder,route:`${req.params.folderId}`,files:subFiles});
+    res.render("drive",{folders:selectedFolder,route:`${req.params.folderId}`,files:subFiles,format:format});
 });
 
 drive.get('/newFolder/:folderId',async (req,res) => {
