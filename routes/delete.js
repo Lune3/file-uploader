@@ -73,7 +73,6 @@ deleteRoute.get('/folder/:folderId', async (req, res) => {
         res.redirect('back');
     } catch (error) {
         console.log('Error deleting folder:', error);
-        res.status(500).json({ error: 'Failed to delete folder' });
     }
 });
 
