@@ -1,7 +1,7 @@
 # Express File Management System with Prisma and Passport.js
 
 ## Project Overview
-This project is a file management system built using Express.js, Prisma, and Passport.js. It allows users to authenticate using session-based authentication, upload files to specific folders, and view file details. The files are stored in a cloud storage service (e.g., Supabase or Cloudinary), and all session data is persisted in a database using Prisma session store.
+This project is a file management system built using Express.js, Prisma, and Passport.js. It allows users to authenticate using session-based authentication, upload files to specific folders, and view file details. The files are stored in a cloud storage service (Cloudinary), and all session data is persisted in a database using Prisma session store.
 
 ## Features
 - **Session-based Authentication**: User authentication using Passport.js, with sessions stored in the database.
